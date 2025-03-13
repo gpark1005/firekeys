@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hotkey_manager_platform_interface/src/hotkey_manager_method_channel.dart';
+import 'package:hotkey_manager_interface/src/hotkey_manager_method_channel.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

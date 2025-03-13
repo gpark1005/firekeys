@@ -1,8 +1,9 @@
 import 'package:flutter/services.dart';
-import 'package:hotkey_manager_platform_interface/hotkey_manager_platform_interface.dart';
+import 'package:hotkey_manager_interface/hotkey_manager_interface.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:uni_platform/uni_platform.dart';
 import 'package:uuid/uuid.dart';
+import 'extensions/keyboard_key.dart';
 
 part 'hotkey.g.dart';
 
@@ -95,13 +96,44 @@ class HotKey {
   }
 
   String get debugName {
-    return [
-      ...(modifiers ?? []).map((e) {
-        final firstPhysicalKey = e.physicalKeys.first;
-        return firstPhysicalKey.debugName;
-      }),
-      physicalKey.debugName,
-    ].join(' + ');
+    // Get labels for modifiers
+    final modifierNames = (modifiers ?? []).map((e) {
+      final firstPhysicalKey = e.physicalKeys.first;
+      return firstPhysicalKey.debugName;
+    }).toList();
+    
+    // Get key label using extension that works in both debug and release modes
+    String keyName;
+    
+    // Check if it's a numpad key and provide a consistent name
+    if (key is PhysicalKeyboardKey) {
+      PhysicalKeyboardKey pk = key as PhysicalKeyboardKey;
+      // Use the extension-based keyLabel that works in all modes for numpad keys
+      if (pk.usbHidUsage >= 0x07000058 && pk.usbHidUsage <= 0x07000067 || // numpad0-9
+          pk.usbHidUsage == 0x07000054 || // numpadDivide
+          pk.usbHidUsage == 0x07000055 || // numpadMultiply
+          pk.usbHidUsage == 0x07000056 || // numpadSubtract
+          pk.usbHidUsage == 0x07000057 || // numpadAdd
+          pk.usbHidUsage == 0x07000058 || // numpadEnter
+          pk.usbHidUsage == 0x07000062 || // numpadEqual
+          pk.usbHidUsage == 0x07000063) { // numpadDecimal
+        keyName = pk.keyLabel;
+      } else {
+        keyName = pk.debugName!;
+      }
+    } else if (key is LogicalKeyboardKey) {
+      LogicalKeyboardKey lk = key as LogicalKeyboardKey;
+      // Handle numpad keys specifically for consistent behavior
+      if (lk.keyLabel.startsWith('Numpad ') || lk.keyLabel == 'Num Lock') {
+        keyName = lk.keyLabel;
+      } else {
+        keyName = physicalKey.debugName!;
+      }
+    } else {
+      keyName = physicalKey.debugName!;
+    }
+    
+    return [...modifierNames, keyName].join(' + ');
   }
 
   Map<String, dynamic> toJson() => _$HotKeyToJson(this);

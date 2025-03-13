@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:flutter/services.dart';
-import 'package:hotkey_manager_platform_interface/hotkey_manager_platform_interface.dart';
+import 'package:hotkey_manager_interface/hotkey_manager_interface.dart';
 
 class HotKeyManager {
   HotKeyManager._() {

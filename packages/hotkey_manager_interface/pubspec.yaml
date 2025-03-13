@@ -1,7 +1,6 @@
-name: hotkey_manager_platform_interface
+name: hotkey_manager_interface
 description: A common platform interface for the hotkey_manager plugin.
-version: 0.2.0
-homepage: https://github.com/leanflutter/hotkey_manager/blob/main/packages/hotkey_manager_platform_interface
+version: 1.0.0
 
 environment:
   sdk: '>=3.0.0 <4.0.0'

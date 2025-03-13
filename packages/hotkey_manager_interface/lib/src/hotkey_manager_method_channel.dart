@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:hotkey_manager_platform_interface/hotkey_manager_platform_interface.dart';
+import 'package:hotkey_manager_interface/hotkey_manager_interface.dart';
 // ignore: implementation_imports
 import 'package:uni_platform/src/extensions/keyboard_key.dart';
 

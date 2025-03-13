@@ -3,6 +3,9 @@ description: This plugin allows Flutter desktop apps to defines system/inapp wid
 version: 0.2.3
 homepage: https://github.com/leanflutter/hotkey_manager
 
+publish_to: none
+
+
 platforms:
   linux:
   macos:
@@ -24,7 +27,8 @@ dependencies:
     sdk: flutter
   hotkey_manager_linux: ^0.2.0
   hotkey_manager_macos: ^0.2.0
-  hotkey_manager_platform_interface: ^0.2.0
+  hotkey_manager_interface:
+    path: ../hotkey_manager_interface
   hotkey_manager_windows: ^0.2.0
   uuid: '>=3.0.7 <5.0.0'
 

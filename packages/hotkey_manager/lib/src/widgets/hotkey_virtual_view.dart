@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hotkey_manager_platform_interface/hotkey_manager_platform_interface.dart';
+import 'package:hotkey_manager_interface/hotkey_manager_interface.dart';
 
 class _VirtualKeyView extends StatelessWidget {
   const _VirtualKeyView({

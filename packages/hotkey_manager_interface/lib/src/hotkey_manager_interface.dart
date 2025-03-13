@@ -1,6 +1,6 @@
-import 'package:hotkey_manager_platform_interface/src/hotkey.dart';
-import 'package:hotkey_manager_platform_interface/src/hotkey_manager_method_channel.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+
+import '../hotkey_manager_interface.dart';
 
 abstract class HotKeyManagerPlatform extends PlatformInterface {
   /// Constructs a HotKeyManagerPlatform.

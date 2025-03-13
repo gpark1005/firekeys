@@ -89,16 +89,83 @@ final Map<PhysicalKeyboardKey, String> _knownKeyLabels =
   PhysicalKeyboardKey.altRight: '⌥',
   PhysicalKeyboardKey.metaRight: (!kIsWeb && Platform.isMacOS) ? '⌘' : '⊞',
   PhysicalKeyboardKey.fn: 'fn',
+  // Add numpad keys
+  PhysicalKeyboardKey.numpad0: 'Numpad 0',
+  PhysicalKeyboardKey.numpad1: 'Numpad 1',
+  PhysicalKeyboardKey.numpad2: 'Numpad 2',
+  PhysicalKeyboardKey.numpad3: 'Numpad 3',
+  PhysicalKeyboardKey.numpad4: 'Numpad 4',
+  PhysicalKeyboardKey.numpad5: 'Numpad 5',
+  PhysicalKeyboardKey.numpad6: 'Numpad 6',
+  PhysicalKeyboardKey.numpad7: 'Numpad 7',
+  PhysicalKeyboardKey.numpad8: 'Numpad 8',
+  PhysicalKeyboardKey.numpad9: 'Numpad 9',
+  PhysicalKeyboardKey.numpadDecimal: 'Numpad .',
+  PhysicalKeyboardKey.numpadAdd: 'Numpad +',
+  PhysicalKeyboardKey.numpadDivide: 'Numpad /',
+  PhysicalKeyboardKey.numpadEnter: 'Numpad Enter',
+  PhysicalKeyboardKey.numpadEqual: 'Numpad =',
+  PhysicalKeyboardKey.numpadMultiply: 'Numpad *',
+  PhysicalKeyboardKey.numpadSubtract: 'Numpad -',
+  PhysicalKeyboardKey.numLock: 'Num Lock',
 };
 
 extension KeyboardKeyExt on KeyboardKey {
   String get keyLabel {
     PhysicalKeyboardKey? physicalKey;
+    LogicalKeyboardKey? logicalKey;
+    
     if (this is LogicalKeyboardKey) {
-      physicalKey = (this as LogicalKeyboardKey).physicalKey;
+      logicalKey = this as LogicalKeyboardKey;
+      physicalKey = logicalKey.physicalKey;
+      
+      // Handle numpad keys specifically for consistent behavior
+      if (logicalKey.keyId >= 0x100000058 && logicalKey.keyId <= 0x100000067) { // numpad0-9
+        return 'Numpad ${logicalKey.keyLabel}';
+      } else if (logicalKey.keyId == 0x100000054) { // numpadDivide
+        return 'Numpad /';
+      } else if (logicalKey.keyId == 0x100000055) { // numpadMultiply
+        return 'Numpad *';
+      } else if (logicalKey.keyId == 0x100000056) { // numpadSubtract
+        return 'Numpad -';
+      } else if (logicalKey.keyId == 0x100000057) { // numpadAdd
+        return 'Numpad +';
+      } else if (logicalKey.keyId == 0x10000007c) { // numpadEnter
+        return 'Numpad Enter';
+      } else if (logicalKey.keyId == 0x100000067) { // numpadDecimal
+        return 'Numpad .';
+      } else if (logicalKey.keyId == 0x100000085) { // numLock
+        return 'Num Lock';
+      } else if (logicalKey.keyId == 0x100000087) { // numpadEqual
+        return 'Numpad =';
+      }
     } else if (this is PhysicalKeyboardKey) {
       physicalKey = this as PhysicalKeyboardKey;
+      logicalKey = physicalKey.logicalKey;
+      
+      // Check for numpad keys by USB HID usage codes
+      if (physicalKey.usbHidUsage >= 0x07000058 && physicalKey.usbHidUsage <= 0x07000067) { // numpad0-9
+        return 'Numpad ${physicalKey.usbHidUsage - 0x07000058}';
+      } else if (physicalKey.usbHidUsage == 0x07000054) { // numpadDivide
+        return 'Numpad /';
+      } else if (physicalKey.usbHidUsage == 0x07000055) { // numpadMultiply
+        return 'Numpad *';
+      } else if (physicalKey.usbHidUsage == 0x07000056) { // numpadSubtract
+        return 'Numpad -';
+      } else if (physicalKey.usbHidUsage == 0x07000057) { // numpadAdd
+        return 'Numpad +';
+      } else if (physicalKey.usbHidUsage == 0x07000058) { // numpadEnter
+        return 'Numpad Enter';
+      } else if (physicalKey.usbHidUsage == 0x07000063) { // numpadDecimal
+        return 'Numpad .';
+      } else if (physicalKey.usbHidUsage == 0x07000053) { // numLock
+        return 'Num Lock';
+      } else if (physicalKey.usbHidUsage == 0x07000067) { // numpadEqual
+        return 'Numpad =';
+      }
     }
+    
+    // Fall back to known key labels or debug name
     return _knownKeyLabels[physicalKey] ?? physicalKey?.debugName ?? 'Unknown';
   }
 }

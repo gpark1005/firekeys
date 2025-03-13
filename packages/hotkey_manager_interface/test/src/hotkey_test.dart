@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hotkey_manager_platform_interface/src/hotkey.dart';
+import 'package:hotkey_manager_interface/src/hotkey.dart';
 
 String oldHotKeyJson1 =
     '{"keyCode":"keyZ","modifiers":["meta","shift"],"identifier":"01","scope":"system"}';
