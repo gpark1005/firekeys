@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import 'package:hotkey_manager_interface/hotkey_manager_interface.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -53,7 +54,7 @@ enum HotKeyScope {
 @JsonSerializable(
   converters: [_KeyboardKeyConverter()],
 )
-class HotKey {
+class HotKey extends Equatable {
   HotKey({
     String? identifier,
     required this.key,
@@ -137,6 +138,9 @@ class HotKey {
   }
 
   Map<String, dynamic> toJson() => _$HotKeyToJson(this);
+
+  @override
+  List<Object?> get props => [identifier, key, modifiers, scope];
 }
 
 // Convert KeyboardKey to/from Map<Object?, Object?>
